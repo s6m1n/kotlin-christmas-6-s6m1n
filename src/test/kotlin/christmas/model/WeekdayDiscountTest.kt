@@ -18,11 +18,9 @@ class WeekdayDiscountTest {
     private val dateService = DateService()
     private val orderService = OrderService()
 
-    private val mainMenus: Map<Menu, Int> = mapOf(
-        Menu.T_BONE_STEAK to 1,
-        Menu.BARBEQUE_LIBS to 1,
-        Menu.SEAFOOD_PASTA to 1,
-        Menu.CHRISTMAS_PASTA to 1,
+    val dessertMenus: Map<Menu, Int> = mapOf(
+        Menu.CHOCOLATE_CAKE to 1,
+        Menu.ICE_CREAM to 1,
     )
 
     @Nested
@@ -31,15 +29,17 @@ class WeekdayDiscountTest {
 
         @ParameterizedTest
         @ValueSource(ints = [7, 10, 14, 17, 21, 24, 28, 31])
-        fun `주말일 경우 true를 반환`(date: Int) {
-            val weekdayDiscount = WeekdayDiscount(date, mainMenus, dateService, orderService)
+        fun `평일일 경우 true를 반환`(date: Int) {
+            val weekdayDiscount =
+                WeekdayDiscount(date, this@WeekdayDiscountTest.dessertMenus, dateService, orderService)
             assertTrue(weekdayDiscount.isApplicable())
         }
 
         @ParameterizedTest
         @ValueSource(ints = [1, 2, 8, 9, 15, 16, 22, 23, 29, 30])
-        fun `주말이 아닐 경우 false를 반환`(date: Int) {
-            val weekdayDiscount = WeekdayDiscount(date, mainMenus, dateService, orderService)
+        fun `평일이 아닐 경우 false를 반환`(date: Int) {
+            val weekdayDiscount =
+                WeekdayDiscount(date, this@WeekdayDiscountTest.dessertMenus, dateService, orderService)
             assertFalse(weekdayDiscount.isApplicable())
         }
     }
@@ -50,26 +50,22 @@ class WeekdayDiscountTest {
 
         @Test
         fun `Dessert 메뉴가 두 개인 경우 2023원`() {
-            val testMenus: Map<Menu, Int> = mapOf(
-                Menu.CHOCOLATE_CAKE to 1,
-                Menu.ICE_CREAM to 1,
-            )
             val expectedDiscount = 4046
-            val weekdayDiscount = WeekdayDiscount(1, testMenus, dateService, orderService)
+            val weekdayDiscount = WeekdayDiscount(7, this@WeekdayDiscountTest.dessertMenus, dateService, orderService)
             val actualDiscount = weekdayDiscount.getDiscountAmount()
             Assertions.assertEquals(expectedDiscount, actualDiscount)
         }
 
         @Test
         fun `Dessert 메뉴가 없을 경우 0원`() {
-            val notMainMenus: Map<Menu, Int> = mapOf(
+            val notDessertMenus: Map<Menu, Int> = mapOf(
                 Menu.BUTTON_MUSHROOM_SOUP to 1,
                 Menu.TAPAS to 1,
                 Menu.ZERO_COLA to 1,
             )
 
             val expectedDiscount = 0
-            val weekdayDiscount = WeekdayDiscount(1, notMainMenus, dateService, orderService)
+            val weekdayDiscount = WeekdayDiscount(7, notDessertMenus, dateService, orderService)
             val actualDiscount = weekdayDiscount.getDiscountAmount()
             Assertions.assertEquals(expectedDiscount, actualDiscount)
         }
