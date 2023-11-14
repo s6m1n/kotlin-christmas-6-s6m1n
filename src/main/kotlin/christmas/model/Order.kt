@@ -1,6 +1,7 @@
 package christmas.model
 
 import christmas.model.domain.Menu
+import christmas.model.domain.Menu.Companion.stringToMenu
 import christmas.model.domain.MenuType
 
 class Order(private val orderedMenus: Map<Menu, Int>) {
@@ -30,4 +31,16 @@ class Order(private val orderedMenus: Map<Menu, Int>) {
 
     fun getOrder() = orderedMenus
     fun getAmountSum() = orderedMenus.entries.sumOf { it.key.getPrice() * it.value }
+
+    companion object {
+        fun createOrder(orderList: List<String>): Order {
+            val orderedMenus = orderList.associate { order ->
+                val (menuText, quantityText) = order.split("-")
+                val menuName = menuText.stringToMenu() ?: throw IllegalArgumentException("유효하지 않은 주문입니다. 다시 입력해 주세요.")
+                val quantity = quantityText.toInt()
+                menuName to quantity
+            }
+            return Order(orderedMenus)
+        }
+    }
 }

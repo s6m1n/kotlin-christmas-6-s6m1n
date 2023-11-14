@@ -2,8 +2,8 @@ package christmas.controller
 
 import christmas.model.Date
 import christmas.model.Order
-import christmas.model.domain.Menu
-import christmas.model.domain.Menu.Companion.stringToMenu
+import christmas.model.Order.Companion.createOrder
+import christmas.model.service.BenefitDetails
 import christmas.view.InputView
 import christmas.view.OutputView
 
@@ -35,20 +35,21 @@ class ViewController {
 
     private fun getOrder(): Order {
         return try {
-            val orderInput = inputView.getValidOrder().toOrderFormat()
-            Order(orderInput)
+            createOrder(inputView.getValidOrder())
         } catch (exception: IllegalArgumentException) {
             outputView.printErrorMessage(exception)
             getOrder()
         }
     }
 
-    private fun List<String>.toOrderFormat(): Map<Menu, Int> {
-        return this.mapNotNull { order ->
-            val (menuText, quantityText) = order.split("-")
-            val menuName = menuText.stringToMenu() ?: throw IllegalArgumentException("유효하지 않은 주문입니다. 다시 입력해 주세요.")
-            val quantity = quantityText.toInt()
-            menuName to quantity
-        }.toMap()
+    fun showEventResults(order: Order, benefitDetails: BenefitDetails) {
+        outputView.benefitPreviewPrompt()
+        outputView.printMenu(order.getOrder())
+        outputView.printTotalAmount(order.getAmountSum())
+        outputView.printFreeGift(benefitDetails.getEvents())
+        outputView.printBenefitDetails(benefitDetails.getEvents())
+        outputView.printTotalBenefitAmount(benefitDetails.getBenefitAmountSum())
+        outputView.printExpectedPaymentAmount(benefitDetails.getFinalAmount(order))
+        outputView.printDecemberEventBadge(benefitDetails.getBenefitAmountSum())
     }
 }

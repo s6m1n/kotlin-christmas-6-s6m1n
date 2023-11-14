@@ -1,5 +1,8 @@
 package christmas
 
+import christmas.controller.WoowacourseRestaurant
+
 fun main() {
-    TODO("프로그램 구현")
+    val restaurant = WoowacourseRestaurant()
+    restaurant.start()
 }
