@@ -1,4 +1,5 @@
 import christmas.model.ChristmasDiscount
+import christmas.model.Date
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -16,14 +17,14 @@ class ChristmasDiscountTest {
         @ParameterizedTest
         @ValueSource(ints = [1, 2, 24, 25])
         fun `12월 1일부터 25일 사이인 경우 true를 반환`(date: Int) {
-            val discount = ChristmasDiscount(date)
+            val discount = ChristmasDiscount(Date(date))
             assertTrue(discount.isApplicable())
         }
 
         @ParameterizedTest
         @ValueSource(ints = [26, 27, 30, 31])
         fun `25일 이후인 경우 false를 반환`(date: Int) {
-            val discount = ChristmasDiscount(date)
+            val discount = ChristmasDiscount(Date(date))
             assertFalse(discount.isApplicable())
         }
 
@@ -33,7 +34,7 @@ class ChristmasDiscountTest {
     @ParameterizedTest
     @MethodSource("날짜에 해당하는 할인 금액")
     fun `날짜에 따른 할인 금액이 적절한지 테스트`(date: Int, expectedDiscount: Int) {
-        val discount = ChristmasDiscount(date)
+        val discount = ChristmasDiscount(Date(date))
         val actualDiscount = discount.getDiscountAmount()
         assertEquals(expectedDiscount, actualDiscount)
     }

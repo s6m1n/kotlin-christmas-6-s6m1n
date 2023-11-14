@@ -1,17 +1,19 @@
-import christmas.model.domain.*
-import christmas.model.service.DateService
-import christmas.model.service.OrderService
+import christmas.model.domain.DayType
+import christmas.model.domain.Event
+import christmas.model.domain.MenuType
+import christmas.model.Date
+import christmas.model.Order
 
 class WeekdayDiscount(
-    private val date: Int,
-    private val order: Map<Menu, Int>,
-    private val dateService: DateService,
-    private val orderService: OrderService
+    private val date: Date,
+    private val order: Order
 ) : Event {
 
     override fun isApplicable(): Boolean =
-        dateService.getDayOfWeek(date).getDayType() == DayType.WEEKDAY
+        date.getDayOfWeek().getDayType() == DayType.WEEKDAY
 
     override fun getDiscountAmount(): Int =
-        2023 * orderService.countMenusByType(order, MenuType.DESSERT)
+        2023 * order.getTotalQuantityOfMenuType(MenuType.DESSERT)
+
+    override fun getEventString(): String = "평일 할인"
 }

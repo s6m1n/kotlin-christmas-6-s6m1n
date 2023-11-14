@@ -18,6 +18,11 @@ enum class Menu(private val menuName: String, private val price: Int, private va
     RED_WINE("레드와인", 60000, MenuType.BEVERAGE),
     CHAMPAGNE("샴페인", 25000, MenuType.BEVERAGE);
 
+    fun getName() = this.menuName
     fun getPrice() = this.price
     fun getMenuType() = this.type
+
+    companion object {
+        fun String.stringToMenu() = Menu.entries.find { this == it.menuName }
+    }
 }

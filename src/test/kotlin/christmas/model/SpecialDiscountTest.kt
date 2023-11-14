@@ -15,14 +15,14 @@ class SpecialDiscountTest {
         @ParameterizedTest
         @ValueSource(ints = [3, 10, 17, 24, 25, 31])
         fun `달력에 별이 있는 날짜일 경우 true를 반환`(date: Int) {
-            val discount = SpecialDiscount(date)
+            val discount = SpecialDiscount(Date(date))
             assertTrue(discount.isApplicable())
         }
 
         @ParameterizedTest
         @ValueSource(ints = [1, 8, 15, 22, 29])
         fun `달력에 별이 있는 날짜가 아닐 경우 false를 반환`(date: Int) {
-            val discount = SpecialDiscount(date)
+            val discount = SpecialDiscount(Date(date))
             assertFalse(discount.isApplicable())
         }
     }

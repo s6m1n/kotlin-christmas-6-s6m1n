@@ -1,8 +1,6 @@
 package christmas.model
 
 import christmas.model.domain.Menu
-import christmas.model.service.DateService
-import christmas.model.service.OrderService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -13,9 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 class WeekendDiscountTest {
-
-    private val dateService = DateService()
-    private val orderService = OrderService()
 
     private val mainMenus: Map<Menu, Int> = mapOf(
         Menu.T_BONE_STEAK to 1,
@@ -30,15 +25,15 @@ class WeekendDiscountTest {
 
         @ParameterizedTest
         @ValueSource(ints = [1, 2, 8, 9, 15, 16, 22, 23, 29, 30])
-        fun `주말일 경우 true를 반환`(date: Int) {
-            val discount = WeekendDiscount(date, mainMenus, dateService, orderService)
+        fun `주말(금,토)일 경우 true를 반환`(date: Int) {
+            val discount = WeekendDiscount(Date(date), Order(mainMenus))
             assertTrue(discount.isApplicable())
         }
 
         @ParameterizedTest
         @ValueSource(ints = [7, 10, 14, 17, 21, 24, 28, 31])
-        fun `주말이 아닐 경우 false를 반환`(date: Int) {
-            val discount = WeekendDiscount(date, mainMenus, dateService, orderService)
+        fun `주말(금,토)이 아닐 경우 false를 반환`(date: Int) {
+            val discount = WeekendDiscount(Date(date), Order(mainMenus))
             assertFalse(discount.isApplicable())
         }
     }
@@ -50,7 +45,7 @@ class WeekendDiscountTest {
         @Test
         fun `메인 메뉴가 네 개인 경우 8092`() {
             val expectedDiscount = 8092
-            val discount = WeekendDiscount(1, mainMenus, dateService, orderService)
+            val discount = WeekendDiscount(Date(1), Order(mainMenus))
             val actualDiscount = discount.getDiscountAmount()
             Assertions.assertEquals(expectedDiscount, actualDiscount)
         }
@@ -61,7 +56,7 @@ class WeekendDiscountTest {
                 Menu.T_BONE_STEAK to 1, Menu.BARBEQUE_LIBS to 1
             )
             val expectedDiscount = 4046
-            val discount = WeekendDiscount(1, testMenus, dateService, orderService)
+            val discount = WeekendDiscount(Date(1), Order(testMenus))
             val actualDiscount = discount.getDiscountAmount()
             Assertions.assertEquals(expectedDiscount, actualDiscount)
         }
@@ -76,7 +71,7 @@ class WeekendDiscountTest {
             )
 
             val expectedDiscount = 0
-            val discount = WeekendDiscount(1, notMainMenus, dateService, orderService)
+            val discount = WeekendDiscount(Date(1), Order(notMainMenus))
             val actualDiscount = discount.getDiscountAmount()
             Assertions.assertEquals(expectedDiscount, actualDiscount)
         }

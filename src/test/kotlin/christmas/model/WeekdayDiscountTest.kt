@@ -2,8 +2,6 @@ package christmas.model
 
 import WeekdayDiscount
 import christmas.model.domain.Menu
-import christmas.model.service.DateService
-import christmas.model.service.OrderService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -14,9 +12,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 class WeekdayDiscountTest {
-
-    private val dateService = DateService()
-    private val orderService = OrderService()
 
     val dessertMenus: Map<Menu, Int> = mapOf(
         Menu.CHOCOLATE_CAKE to 1,
@@ -31,7 +26,7 @@ class WeekdayDiscountTest {
         @ValueSource(ints = [7, 10, 14, 17, 21, 24, 28, 31])
         fun `평일일 경우 true를 반환`(date: Int) {
             val weekdayDiscount =
-                WeekdayDiscount(date, this@WeekdayDiscountTest.dessertMenus, dateService, orderService)
+                WeekdayDiscount(Date(date), Order(this@WeekdayDiscountTest.dessertMenus))
             assertTrue(weekdayDiscount.isApplicable())
         }
 
@@ -39,7 +34,7 @@ class WeekdayDiscountTest {
         @ValueSource(ints = [1, 2, 8, 9, 15, 16, 22, 23, 29, 30])
         fun `평일이 아닐 경우 false를 반환`(date: Int) {
             val weekdayDiscount =
-                WeekdayDiscount(date, this@WeekdayDiscountTest.dessertMenus, dateService, orderService)
+                WeekdayDiscount(Date(date), Order(this@WeekdayDiscountTest.dessertMenus))
             assertFalse(weekdayDiscount.isApplicable())
         }
     }
@@ -51,7 +46,7 @@ class WeekdayDiscountTest {
         @Test
         fun `Dessert 메뉴가 두 개인 경우 2023원`() {
             val expectedDiscount = 4046
-            val weekdayDiscount = WeekdayDiscount(7, this@WeekdayDiscountTest.dessertMenus, dateService, orderService)
+            val weekdayDiscount = WeekdayDiscount(Date(7), Order(this@WeekdayDiscountTest.dessertMenus))
             val actualDiscount = weekdayDiscount.getDiscountAmount()
             Assertions.assertEquals(expectedDiscount, actualDiscount)
         }
@@ -65,7 +60,7 @@ class WeekdayDiscountTest {
             )
 
             val expectedDiscount = 0
-            val weekdayDiscount = WeekdayDiscount(7, notDessertMenus, dateService, orderService)
+            val weekdayDiscount = WeekdayDiscount(Date(7), Order(notDessertMenus))
             val actualDiscount = weekdayDiscount.getDiscountAmount()
             Assertions.assertEquals(expectedDiscount, actualDiscount)
         }
