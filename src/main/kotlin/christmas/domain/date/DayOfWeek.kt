@@ -1,4 +1,4 @@
-package christmas.model.domain
+package christmas.domain.date
 
 enum class DayOfWeek(val startDate: Int) {
     MONDAY(4),

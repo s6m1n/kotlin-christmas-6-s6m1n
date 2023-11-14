@@ -1,8 +1,8 @@
-package christmas.model
+package christmas.domain
 
-import christmas.model.domain.Menu
-import christmas.model.domain.Menu.Companion.stringToMenu
-import christmas.model.domain.MenuType
+import christmas.domain.menu.Menu
+import christmas.domain.menu.Menu.Companion.stringToMenu
+import christmas.domain.menu.MenuType
 
 class Order(private val orderedMenus: Map<Menu, Int>) {
 

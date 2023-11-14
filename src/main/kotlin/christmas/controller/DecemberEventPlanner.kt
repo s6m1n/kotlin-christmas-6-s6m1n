@@ -1,8 +1,9 @@
 package christmas.controller
 
-import WeekdayDiscount
-import christmas.model.*
-import christmas.model.domain.Event
+import christmas.domain.date.Date
+import christmas.domain.Order
+import christmas.domain.event.Event
+import christmas.domain.event.*
 
 class DecemberEventPlanner(
     private val date: Date,

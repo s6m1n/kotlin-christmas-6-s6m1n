@@ -1,6 +1,5 @@
-package christmas.model
+package christmas.domain.date
 
-import christmas.model.domain.DayOfWeek
 import christmas.view.InputView.Companion.INVALID_DATE
 
 class Date(private val date: Int) {

@@ -1,6 +1,6 @@
-package christmas.model
+package christmas.domain.event
 
-import christmas.model.domain.Event
+import christmas.domain.date.Date
 
 class SpecialDiscount(private val date: Date) : Event {
     override fun isApplicable() = listOf(3, 10, 17, 24, 25, 31).contains(date.getDate())

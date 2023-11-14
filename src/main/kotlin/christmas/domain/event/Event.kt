@@ -1,4 +1,4 @@
-package christmas.model.domain
+package christmas.domain.event
 
 interface Event {
     fun isApplicable(): Boolean

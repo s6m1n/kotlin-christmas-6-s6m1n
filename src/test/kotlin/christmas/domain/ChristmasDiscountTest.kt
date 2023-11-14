@@ -1,5 +1,5 @@
-import christmas.model.ChristmasDiscount
-import christmas.model.Date
+import christmas.domain.event.ChristmasDiscount
+import christmas.domain.date.Date
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested

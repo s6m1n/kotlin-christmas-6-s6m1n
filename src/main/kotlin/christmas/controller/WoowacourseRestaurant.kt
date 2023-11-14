@@ -1,6 +1,6 @@
 package christmas.controller
 
-import christmas.model.service.BenefitDetails
+import christmas.domain.BenefitDetails
 
 class WoowacourseRestaurant {
 

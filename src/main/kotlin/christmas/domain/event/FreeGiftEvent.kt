@@ -1,6 +1,4 @@
-package christmas.model
-
-import christmas.model.domain.Event
+package christmas.domain.event
 
 class FreeGiftEvent(private val amountBeforeDiscount: Int) : Event {
     override fun isApplicable() = (120_000 <= amountBeforeDiscount)

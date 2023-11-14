@@ -1,6 +1,6 @@
-package christmas.model
+package christmas.domain.event
 
-import christmas.model.domain.Event
+import christmas.domain.date.Date
 
 class ChristmasDiscount(private val date: Date) : Event {
     override fun isApplicable() = date.getDate() <= 25

@@ -1,8 +1,8 @@
 package christmas.view
 
-import christmas.model.domain.Event
-import christmas.model.domain.EventBadge
-import christmas.model.domain.Menu
+import christmas.domain.event.Event
+import christmas.domain.event.EventBadge
+import christmas.domain.menu.Menu
 import java.text.NumberFormat
 import java.util.*
 
@@ -60,7 +60,7 @@ class OutputView {
 
     fun printTotalBenefitAmount(totalAmount: Int) {
         println("\n<총혜택 금액>")
-        println("${formatAmount(0 - totalAmount)}")
+        println(formatAmount(0 - totalAmount))
     }
 
     fun printExpectedPaymentAmount(totalAmount: Int) {

@@ -1,4 +1,4 @@
-package christmas.model.domain
+package christmas.domain.menu
 
 enum class Menu(private val menuName: String, private val price: Int, private val type: MenuType) {
 

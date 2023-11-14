@@ -1,4 +1,4 @@
-package christmas.model.domain
+package christmas.domain.event
 
 enum class EventBadge(private val badgeName: String) {
     STAR("별"),

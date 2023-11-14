@@ -1,9 +1,9 @@
 package christmas.controller
 
-import christmas.model.Date
-import christmas.model.Order
-import christmas.model.Order.Companion.createOrder
-import christmas.model.service.BenefitDetails
+import christmas.domain.date.Date
+import christmas.domain.Order
+import christmas.domain.Order.Companion.createOrder
+import christmas.domain.BenefitDetails
 import christmas.view.InputView
 import christmas.view.OutputView
 

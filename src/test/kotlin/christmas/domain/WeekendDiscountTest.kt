@@ -1,6 +1,8 @@
-package christmas.model
+package christmas.domain
 
-import christmas.model.domain.Menu
+import christmas.domain.date.Date
+import christmas.domain.menu.Menu
+import christmas.domain.event.WeekendDiscount
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue

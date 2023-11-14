@@ -1,4 +1,4 @@
-package christmas.model.domain
+package christmas.domain.menu
 
 enum class MenuType {
     APPETIZER,

@@ -1,7 +1,6 @@
-package christmas.model.service
+package christmas.domain
 
-import christmas.model.Order
-import christmas.model.domain.Event
+import christmas.domain.event.Event
 
 class BenefitDetails(private val benefitDetails: Map<Event, Int>) {
 

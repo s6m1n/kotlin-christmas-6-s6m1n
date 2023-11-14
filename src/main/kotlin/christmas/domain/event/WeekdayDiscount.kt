@@ -1,8 +1,9 @@
-import christmas.model.domain.DayType
-import christmas.model.domain.Event
-import christmas.model.domain.MenuType
-import christmas.model.Date
-import christmas.model.Order
+package christmas.domain.event
+
+import christmas.domain.date.DayType
+import christmas.domain.menu.MenuType
+import christmas.domain.date.Date
+import christmas.domain.Order
 
 class WeekdayDiscount(
     private val date: Date,
