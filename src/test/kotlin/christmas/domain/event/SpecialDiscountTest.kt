@@ -1,4 +1,4 @@
-package christmas.domain
+package christmas.domain.event
 
 import christmas.domain.date.Date
 import christmas.domain.event.SpecialDiscount

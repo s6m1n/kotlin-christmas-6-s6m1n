@@ -1,4 +1,4 @@
-package christmas.domain
+package christmas.domain.event
 
 import christmas.domain.event.FreeGiftEvent
 import org.junit.jupiter.api.Assertions.*
