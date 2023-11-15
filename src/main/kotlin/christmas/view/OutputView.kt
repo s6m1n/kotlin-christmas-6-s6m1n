@@ -7,19 +7,19 @@ import java.text.NumberFormat
 import java.util.*
 
 class OutputView {
-    fun decemberEventPlannerPrompt() {
+    fun promptDecemberEventPlanner() {
         println(PROMPT_DECEMBER_EVENT_PLANNER)
     }
 
-    fun printDateInputPrompt() {
+    fun promptDateInput() {
         println(PROMPT_INPUT_DATE)
     }
 
-    fun printOrderInputPrompt() {
+    fun promptOrderInput() {
         println(PROMPT_INPUT_ORDER)
     }
 
-    fun printBenefitPreviewPrompt() {
+    fun promptBenefitPreview() {
         println(PROMPT_BENEFIT_PREVIEW)
     }
 
@@ -27,48 +27,50 @@ class OutputView {
         println(ERROR_MESSAGE_START_PAD + exception.message)
     }
 
-    fun printOrderedMenu(menus: Map<Menu, Int>) {
+    fun showOrderedMenu(order: Map<Menu, Int>) {
         println(TITLE_ORDERED_MENU)
-        menus.entries.forEach { println("${it.key.getName()} ${it.value}개") }
+        order.entries.forEach { println("${it.key.getName()} ${it.value}개") }
     }
 
-    fun printTotalAmount(totalAmount: Int) {
-        println(TITLE_BEFORE_DISCOUNT_TOTAL_AMOUNT)
+    fun showTotalAmount(totalAmount: Int) {
+        println(TITLE_BEFORE_DISCOUNT)
         println(formatAmount(totalAmount))
     }
 
-    fun printFreeGift(applyDiscount: Map<Event, Int>) {
+    fun showFreeGift(hasFreeGift: Boolean) {
         println(TITLE_FREE_GIFT)
-        val noFreeGift = (applyDiscount.filter { it.key.getEventString() == "증정 이벤트" && it.value == 0 }.size == 1)
-        val freeGiftText = when (noFreeGift) {
-            true -> NONE
-            false -> ONE_CHAMPAGNE
+        val freeGiftText = when (hasFreeGift) {
+            true -> ONE_CHAMPAGNE
+            false -> NONE
         }
         println(freeGiftText)
     }
 
-    fun printBenefitDetails(totalBenefit: Map<Event, Int>) {
+    fun showBenefitDetails(benefitDetails: Map<Event, Int>) {
         println(TITLE_BENEFIT_DETAILS)
-        val noBenefit = (totalBenefit.filter { it.value == 0 }.size == totalBenefit.size)
-        when (noBenefit) {
+        when (benefitDetails.all { it.value == 0 }) {
             true -> println(NONE)
-            false -> totalBenefit.entries.forEach {
-                if (it.value != 0) println("${it.key.getEventString()}: -${formatAmount(it.value)}")
-            }
+            false -> printBenefitDetails(benefitDetails)
         }
     }
 
-    fun printTotalBenefitAmount(totalAmount: Int) {
+    private fun printBenefitDetails(benefitDetails: Map<Event, Int>) {
+        benefitDetails.entries.forEach {
+            if (it.value != 0) println("${it.key.getEventString()}: -${formatAmount(it.value)}")
+        }
+    }
+
+    fun showTotalBenefitAmount(totalAmount: Int) {
         println(TITLE_TOTAL_BENEFIT_AMOUNT)
         println(formatAmount(0 - totalAmount))
     }
 
-    fun printExpectedPaymentAmount(totalAmount: Int) {
-        println(TITLE_EXPECTED_PAYMENT_AMOUNT)
+    fun showExpectedPaymentAmount(totalAmount: Int) {
+        println(TITLE_EXPECTED_PAYMENT)
         println(formatAmount(totalAmount))
     }
 
-    fun printDecemberEventBadge(totalBenefitAmount: Int) {
+    fun showDecemberEventBadge(totalBenefitAmount: Int) {
         println(TITLE_DECEMBER_EVENT_BADGE)
         val badge = when {
             (20000 <= totalBenefitAmount) -> EventBadge.SANTA.getName()
@@ -81,10 +83,13 @@ class OutputView {
 
     private fun formatAmount(amount: Int): String {
         val format = NumberFormat.getNumberInstance(Locale.KOREA)
-        return format.format(amount) + WON
+        return format.format(amount) + UNIT_WON
     }
 
     companion object {
+        fun printErrorText(text: String) {
+            println(ERROR_MESSAGE_START_PAD + text)
+        }
 
         const val PROMPT_DECEMBER_EVENT_PLANNER = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다."
         const val PROMPT_INPUT_DATE = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)"
@@ -92,14 +97,14 @@ class OutputView {
         const val PROMPT_BENEFIT_PREVIEW = "12월 26일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!"
         const val ERROR_MESSAGE_START_PAD = "[ERROR] "
         const val TITLE_ORDERED_MENU = "\n<주문 메뉴>"
-        const val TITLE_BEFORE_DISCOUNT_TOTAL_AMOUNT = "\n<할인 전 총주문 금액>"
+        const val TITLE_BEFORE_DISCOUNT = "\n<할인 전 총주문 금액>"
         const val TITLE_FREE_GIFT = "\n<증정 메뉴>"
         const val TITLE_BENEFIT_DETAILS = "\n<혜택 내역>"
         const val TITLE_TOTAL_BENEFIT_AMOUNT = "\n<총혜택 금액>"
-        const val TITLE_EXPECTED_PAYMENT_AMOUNT = "\n<할인 후 예상 결제 금액>"
+        const val TITLE_EXPECTED_PAYMENT = "\n<할인 후 예상 결제 금액>"
         const val TITLE_DECEMBER_EVENT_BADGE = "\n<12월 이벤트 배지>"
         const val NONE = "없음"
-        const val WON = "원"
+        const val UNIT_WON = "원"
         const val ONE_CHAMPAGNE = "샴페인 1개"
     }
 }

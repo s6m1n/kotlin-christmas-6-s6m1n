@@ -12,11 +12,11 @@ class ViewController {
     private val outputView = OutputView()
 
     fun showWelcomeMessage() {
-        outputView.decemberEventPlannerPrompt()
+        outputView.promptDecemberEventPlanner()
     }
 
     fun inputDate(): Date {
-        outputView.printDateInputPrompt()
+        outputView.promptDateInput()
         return getValidDateFromUser()
     }
 
@@ -29,7 +29,7 @@ class ViewController {
         }
 
     fun inputOrder(): Order {
-        outputView.printOrderInputPrompt()
+        outputView.promptOrderInput()
         return getValidOrderFromUser()
     }
 
@@ -43,13 +43,13 @@ class ViewController {
     }
 
     fun showEventResults(order: Order, benefitDetails: BenefitDetails) {
-        outputView.printBenefitPreviewPrompt()
-        outputView.printOrderedMenu(order.getOrder())
-        outputView.printTotalAmount(order.getAmountSum())
-        outputView.printFreeGift(benefitDetails.getEvents())
-        outputView.printBenefitDetails(benefitDetails.getEvents())
-        outputView.printTotalBenefitAmount(benefitDetails.getBenefitAmountSum())
-        outputView.printExpectedPaymentAmount(benefitDetails.getFinalAmount(order))
-        outputView.printDecemberEventBadge(benefitDetails.getBenefitAmountSum())
+        outputView.promptBenefitPreview()
+        outputView.showOrderedMenu(order.getOrder())
+        outputView.showTotalAmount(order.getAmountSum())
+        outputView.showFreeGift(order.hasFreeGift())
+        outputView.showBenefitDetails(benefitDetails.getEvents())
+        outputView.showTotalBenefitAmount(benefitDetails.getBenefitAmountSum())
+        outputView.showExpectedPaymentAmount(benefitDetails.getFinalAmount(order))
+        outputView.showDecemberEventBadge(benefitDetails.getBenefitAmountSum())
     }
 }
