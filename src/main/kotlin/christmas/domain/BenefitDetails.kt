@@ -1,16 +1,15 @@
 package christmas.domain
 
 import christmas.domain.event.Event
-import christmas.domain.event.FreeGiftEvent.Companion.FREE_GIFT_EVENT
+import christmas.domain.event.FreeGiftEvent
 
 class BenefitDetails(private val benefitDetails: Map<Event, Int>) {
 
-    fun getEvents() = benefitDetails
+    fun getBenefitDetails() = benefitDetails
 
-    fun getBenefitAmountSum() = benefitDetails.entries.sumOf { it.value }
+    fun getBenefitAmountSum() = benefitDetails.values.sumOf { it }
 
-    fun getFinalAmount(order: Order): Int {
-        val discountAmount = benefitDetails.filter { it.key.getEventString() != FREE_GIFT_EVENT }.values.sumOf { it }
-        return order.getAmountSum() - discountAmount
-    }
+    fun getDiscountAmountSum() = benefitDetails.filter {
+        it.key.getEventString() != FreeGiftEvent.FREE_GIFT_EVENT
+    }.values.sumOf { it }
 }
