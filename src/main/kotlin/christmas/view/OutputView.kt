@@ -1,8 +1,5 @@
 package christmas.view
 
-import christmas.domain.event.Event
-import christmas.domain.event.EventBadge
-import christmas.domain.menu.Menu
 import java.text.NumberFormat
 import java.util.*
 
@@ -27,9 +24,9 @@ class OutputView {
         println(ERROR_MESSAGE_START_PAD + exception.message)
     }
 
-    fun showOrderedMenu(order: Map<Menu, Int>) {
+    fun showOrderedMenu(order: Map<String, Int>) {
         println(TITLE_ORDERED_MENU)
-        order.entries.forEach { println("${it.key.getName()} ${it.value}개") }
+        order.entries.forEach { println("${it.key} ${it.value}개") }
     }
 
     fun showTotalAmount(totalAmount: Int) {
@@ -46,7 +43,7 @@ class OutputView {
         println(freeGiftText)
     }
 
-    fun showBenefitDetails(benefitDetails: Map<Event, Int>) {
+    fun showBenefitDetails(benefitDetails: Map<String, Int>) {
         println(TITLE_BENEFIT_DETAILS)
         when (benefitDetails.all { it.value == 0 }) {
             true -> println(NONE)
@@ -54,9 +51,9 @@ class OutputView {
         }
     }
 
-    private fun printBenefitDetails(benefitDetails: Map<Event, Int>) {
+    private fun printBenefitDetails(benefitDetails: Map<String, Int>) {
         benefitDetails.entries.forEach {
-            if (it.value != 0) println("${it.key.getEventString()}: -${formatAmount(it.value)}")
+            if (it.value != 0) println("${it.key}: -${formatAmount(it.value)}")
         }
     }
 
@@ -70,14 +67,8 @@ class OutputView {
         println(formatAmount(totalAmount))
     }
 
-    fun showDecemberEventBadge(totalBenefitAmount: Int) {
+    fun showDecemberEventBadge(badge: String) {
         println(TITLE_DECEMBER_EVENT_BADGE)
-        val badge = when {
-            (20000 <= totalBenefitAmount) -> EventBadge.SANTA.getName()
-            (10000 <= totalBenefitAmount) -> EventBadge.TREE.getName()
-            (5000 <= totalBenefitAmount) -> EventBadge.STAR.getName()
-            else -> NONE
-        }
         println(badge)
     }
 

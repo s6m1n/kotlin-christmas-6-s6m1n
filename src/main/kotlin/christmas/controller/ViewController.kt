@@ -1,6 +1,6 @@
 package christmas.controller
 
-import christmas.domain.BenefitDetails
+import christmas.domain.EventResultDTO
 import christmas.domain.Order
 import christmas.domain.Order.Companion.createOrder
 import christmas.domain.date.Date
@@ -20,13 +20,12 @@ class ViewController {
         return getValidDateFromUser()
     }
 
-    private fun getValidDateFromUser(): Date =
-        try {
-            Date(inputView.getValidDate())
-        } catch (exception: IllegalArgumentException) {
-            outputView.printErrorMessage(exception)
-            this.getValidDateFromUser()
-        }
+    private fun getValidDateFromUser(): Date = try {
+        Date(inputView.getValidDate())
+    } catch (exception: IllegalArgumentException) {
+        outputView.printErrorMessage(exception)
+        this.getValidDateFromUser()
+    }
 
     fun inputOrder(): Order {
         outputView.promptOrderInput()
@@ -42,14 +41,16 @@ class ViewController {
         }
     }
 
-    fun showEventResults(order: Order, benefitDetails: BenefitDetails) {
-        outputView.promptBenefitPreview()
-        outputView.showOrderedMenu(order.getOrder())
-        outputView.showTotalAmount(order.getAmountSum())
-        outputView.showFreeGift(order.hasFreeGift())
-        outputView.showBenefitDetails(benefitDetails.getEvents())
-        outputView.showTotalBenefitAmount(benefitDetails.getBenefitAmountSum())
-        outputView.showExpectedPaymentAmount(benefitDetails.getFinalAmount(order))
-        outputView.showDecemberEventBadge(benefitDetails.getBenefitAmountSum())
+    fun showEventResults(eventResult: EventResultDTO) {
+        with(outputView) {
+            promptBenefitPreview()
+            showOrderedMenu(eventResult.menus)
+            showTotalAmount(eventResult.totalAmount)
+            showFreeGift(eventResult.hasFreeGift)
+            showBenefitDetails(eventResult.benefitDetails)
+            showTotalBenefitAmount(eventResult.totalBenefitAmount)
+            showExpectedPaymentAmount(eventResult.finalAmount)
+            showDecemberEventBadge(eventResult.eventBadge)
+        }
     }
 }
