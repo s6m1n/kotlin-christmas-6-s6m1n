@@ -1,5 +1,7 @@
 package christmas.domain.menu
 
+import christmas.view.InputView.Companion.INVALID_ORDER
+
 enum class Menu(private val menuName: String, private val price: Int, private val type: MenuType) {
 
     BUTTON_MUSHROOM_SOUP("양송이수프", 6000, MenuType.APPETIZER),
@@ -23,6 +25,7 @@ enum class Menu(private val menuName: String, private val price: Int, private va
     fun getMenuType() = this.type
 
     companion object {
-        fun String.stringToMenu() = Menu.entries.find { this == it.menuName }
+        fun String.toMenu() =
+            Menu.entries.find { this == it.menuName } ?: throw IllegalArgumentException(INVALID_ORDER)
     }
 }
