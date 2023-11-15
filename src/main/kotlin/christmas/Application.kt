@@ -1,8 +1,8 @@
 package christmas
 
-import christmas.controller.WoowacourseRestaurant
+import christmas.controller.WoowacourseRestaurantController
 
 fun main() {
-    val restaurant = WoowacourseRestaurant()
+    val restaurant = WoowacourseRestaurantController()
     restaurant.start()
 }

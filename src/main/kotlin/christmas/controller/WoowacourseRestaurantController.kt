@@ -3,18 +3,17 @@ package christmas.controller
 import christmas.domain.BenefitDetails
 import christmas.domain.Order
 import christmas.domain.date.Date
-import christmas.service.DecemberEventPlanner
 
-class WoowacourseRestaurant {
+class WoowacourseRestaurantController {
 
     private val viewController = ViewController()
-    private val eventPlanner = DecemberEventPlanner()
+    private val eventPlannerController = EventPlannerController()
 
     fun start() {
         viewController.showWelcomeMessage()
         val date = requestDateFromUser()
         val order = requestOrderFromUser()
-        val benefitDetails = eventPlanner.applyEvents(date, order)
+        val benefitDetails = eventPlannerController.applyEvents(date, order)
         showResult(order, benefitDetails)
     }
 
@@ -27,6 +26,7 @@ class WoowacourseRestaurant {
     }
 
     private fun showResult(order: Order, benefitDetails: BenefitDetails) {
-        viewController.showEventResults(order, benefitDetails)
+        val resultDTO = eventPlannerController.getResultDTO(order, benefitDetails)
+        viewController.showEventResults(resultDTO)
     }
 }
