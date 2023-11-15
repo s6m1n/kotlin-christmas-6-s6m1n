@@ -1,6 +1,5 @@
 package christmas.domain.event
 
-import christmas.domain.event.FreeGiftEvent
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
