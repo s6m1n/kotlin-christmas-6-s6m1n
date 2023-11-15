@@ -1,9 +1,9 @@
 package christmas.controller
 
-import christmas.domain.date.Date
+import christmas.domain.BenefitDetails
 import christmas.domain.Order
 import christmas.domain.Order.Companion.createOrder
-import christmas.domain.BenefitDetails
+import christmas.domain.date.Date
 import christmas.view.InputView
 import christmas.view.OutputView
 
@@ -11,40 +11,40 @@ class ViewController {
     private val inputView = InputView()
     private val outputView = OutputView()
 
-    init {
+    fun showWelcomeMessage() {
         outputView.decemberEventPlannerPrompt()
     }
 
-    fun startInputDate(): Date {
+    fun inputDate(): Date {
         outputView.printDateInputPrompt()
-        return getDate()
+        return getValidDateFromUser()
     }
 
-    private fun getDate(): Date =
+    private fun getValidDateFromUser(): Date =
         try {
             Date(inputView.getValidDate())
         } catch (exception: IllegalArgumentException) {
             outputView.printErrorMessage(exception)
-            this.getDate()
+            this.getValidDateFromUser()
         }
 
-    fun startInputOrder(): Order {
+    fun inputOrder(): Order {
         outputView.printOrderInputPrompt()
-        return getOrder()
+        return getValidOrderFromUser()
     }
 
-    private fun getOrder(): Order {
+    private fun getValidOrderFromUser(): Order {
         return try {
             createOrder(inputView.getValidOrder())
         } catch (exception: IllegalArgumentException) {
             outputView.printErrorMessage(exception)
-            getOrder()
+            getValidOrderFromUser()
         }
     }
 
     fun showEventResults(order: Order, benefitDetails: BenefitDetails) {
-        outputView.benefitPreviewPrompt()
-        outputView.printMenu(order.getOrder())
+        outputView.printBenefitPreviewPrompt()
+        outputView.printOrderedMenu(order.getOrder())
         outputView.printTotalAmount(order.getAmountSum())
         outputView.printFreeGift(benefitDetails.getEvents())
         outputView.printBenefitDetails(benefitDetails.getEvents())

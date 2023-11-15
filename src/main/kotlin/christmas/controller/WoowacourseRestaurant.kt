@@ -1,24 +1,32 @@
 package christmas.controller
 
 import christmas.domain.BenefitDetails
+import christmas.domain.Order
+import christmas.domain.date.Date
+import christmas.service.DecemberEventPlanner
 
 class WoowacourseRestaurant {
 
     private val viewController = ViewController()
-    private val date = viewController.startInputDate()
-    private val order = viewController.startInputOrder()
+    private val eventPlanner = DecemberEventPlanner()
 
     fun start() {
-        val benefitDetails = applyEventPlanner()
-        showResult(benefitDetails)
+        viewController.showWelcomeMessage()
+        val date = requestDateFromUser()
+        val order = requestOrderFromUser()
+        val benefitDetails = eventPlanner.applyEvents(date, order)
+        showResult(order, benefitDetails)
     }
 
-    private fun applyEventPlanner(): BenefitDetails {
-        val eventPlanner = DecemberEventPlanner(date, order)
-        return BenefitDetails(eventPlanner.apply())
+    private fun requestDateFromUser(): Date {
+        return viewController.inputDate()
     }
 
-    private fun showResult(events: BenefitDetails) {
-        viewController.showEventResults(order, events)
+    private fun requestOrderFromUser(): Order {
+        return viewController.inputOrder()
+    }
+
+    private fun showResult(order: Order, benefitDetails: BenefitDetails) {
+        viewController.showEventResults(order, benefitDetails)
     }
 }
